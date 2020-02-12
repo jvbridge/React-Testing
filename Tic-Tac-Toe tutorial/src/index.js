@@ -2,6 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+/***
+ * This is the only file I'm really modifying for this project. I finished the 
+ * tutorial, now I'm implementing their suggested changes for this
+ * 
+ * 1. Display the location for each move in the format (col, row) in the move 
+ *    history list
+ * 2. Bold the currently selected item in the move list.
+ * 3. Rewrite Board to use two loops to make the squares instead of hardcoding 
+ *    them.
+ * 4. Add a toggle button that lets you sort the moves in either ascending or
+ *    descending order.
+ * 5. When someone wins, highlight the three squares that caused the win.
+ * 6. When no one wins, display a message about the result being a draw.
+ */
+
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -141,5 +156,5 @@ function calculateWinner(squares){
 
 ReactDOM.render(
   <Game />,
-  document.getElementById('root')
+  document.getElementById('root');
 );
