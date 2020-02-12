@@ -5,11 +5,10 @@ import './index.css';
 /***
  * This is the only file I'm really modifying for this project. I finished the 
  * tutorial, now I'm implementing their suggested changes for this
- * 
  * 1. Display the location for each move in the format (col, row) in the move 
  *    history list
  * 2. Bold the currently selected item in the move list.
- * 3. Rewrite Board to use two loops to make the squares instead of hardcoding 
+ * 3. Rewrite Board to use two loops to make the squares instead of hardcoding ::DONE::
  *    them.
  * 4. Add a toggle button that lets you sort the moves in either ascending or
  *    descending order.
@@ -36,25 +35,18 @@ class Board extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+    var rows = [];
+    // hardcoding the number of rows because this thing can't handle anything
+    // other than 3x3
+    for (var i = 0; i < 3; i++){
+      var row = [];
+      for (var n = 0; n < 3; n++){
+        row.push(this.renderSquare(n + (i * 3)));
+      }
+    rows.push(<div className="board-row">{row}</div>);
+    }
+    
+    return (<div>{rows}</div>);
   }
 }
 
@@ -156,5 +148,5 @@ function calculateWinner(squares){
 
 ReactDOM.render(
   <Game />,
-  document.getElementById('root');
+  document.getElementById('root')
 );
