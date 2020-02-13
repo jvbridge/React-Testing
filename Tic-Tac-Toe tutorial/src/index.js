@@ -7,15 +7,19 @@ import './index.css';
  * tutorial, now I'm implementing their suggested changes for this
  * 1. Display the location for each move in the format (col, row) in the move 
  *    history list
- * 2. Bold the currently selected item in the move list.
- * 3. Rewrite Board to use two loops to make the squares instead of hardcoding ::DONE::
- *    them.
+ * 2. ::DONE:: Bold the currently selected item in the move list. ::DONE::
+ * 3. ::DONE:: Rewrite Board to use two loops to make the squares instead of 
+ *    hardcoding them. ::DONE::
  * 4. Add a toggle button that lets you sort the moves in either ascending or
  *    descending order.
  * 5. When someone wins, highlight the three squares that caused the win.
  * 6. When no one wins, display a message about the result being a draw.
  */
 
+ /**
+  * Creates a square using a react object
+  * @param {Object} props Properties inherited from the Game object
+  */
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -36,14 +40,13 @@ class Board extends React.Component {
 
   render() {
     var rows = [];
-    // hardcoding the number of rows because this thing can't handle anything
-    // other than 3x3
-    for (var i = 0; i < 3; i++){
+    const rowCount = 3;
+    for (var i = 0; i < rowCount; i++){
       var row = [];
-      for (var n = 0; n < 3; n++){
-        row.push(this.renderSquare(n + (i * 3)));
+      for (var n = 0; n < rowCount; n++){
+        row.push(this.renderSquare(n + (i * rowCount)));
       }
-    rows.push(<div className="board-row">{row}</div>);
+      rows.push(<div className="board-row">{row}</div>);
     }
     
     return (<div>{rows}</div>);
@@ -94,11 +97,19 @@ class Game extends React.Component {
       const desc = move ?
         "Go to move #: " + move :
         "Go to game start";
+      
+      if (this.state.stepNumber === move){
         return (
           <li key={move}>
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+            <button style={{fontWeight: 'bold'}} onClick={() => this.jumpTo(move)}>{desc}</button>
           </li>
         )
+      }
+      return (
+        <li key={move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        </li>
+      )
     });
 
     let status;
