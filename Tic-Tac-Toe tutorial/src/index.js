@@ -5,8 +5,8 @@ import './index.css';
 /***
  * This is the only file I'm really modifying for this project. I finished the 
  * tutorial, now I'm implementing their suggested changes for this
- * 1. Display the location for each move in the format (col, row) in the move 
- *    history list
+ * 1. ::DONE:: Display the location for each move in the format (col, row) in 
+ *    the move history list
  * 2. ::DONE:: Bold the currently selected item in the move list. ::DONE::
  * 3. ::DONE:: Rewrite Board to use two loops to make the squares instead of 
  *    hardcoding them. ::DONE::
@@ -27,6 +27,7 @@ function Square(props) {
     </button>
   )  
 }
+
 
 class Board extends React.Component {  
   renderSquare(i) {
@@ -94,20 +95,46 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
+      // description for the button
       const desc = move ?
         "Go to move #: " + move :
         "Go to game start";
-      
+
+      // which index is different from the previous one in history
+      let diffNum
+      if (move){
+        step.squares.forEach((value, index) => {
+          if (value !== history[move - 1].squares[index])
+            diffNum = index;
+        })
+      } else {
+        diffNum = null;
+      }
+      // convert number to column/row
+      const col = diffNum % 3 + 1;
+      const row = Math.floor(diffNum /3) + 1;
+      const player = (move % 2 === 1) ? 
+        "X":
+        "O";
+      const prevMove = move ?
+        " Move -> player: " + player + " column: " + col + " row: " + row :
+        " No moves done yet";
       if (this.state.stepNumber === move){
         return (
           <li key={move}>
-            <button style={{fontWeight: 'bold'}} onClick={() => this.jumpTo(move)}>{desc}</button>
+            <button 
+              style={{fontWeight: 'bold'}} 
+              onClick={() => this.jumpTo(move)}
+            >   
+              {desc}
+              {prevMove}
+            </button>
           </li>
         )
       }
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.jumpTo(move)}>{desc} {prevMove}</button>
         </li>
       )
     });
